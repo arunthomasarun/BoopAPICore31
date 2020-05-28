@@ -1,0 +1,21 @@
+﻿using System;
+using System.Collections.Generic;
+using System.Linq;
+using System.Threading.Tasks;
+
+namespace BookAPICore31.Models
+{
+    public class Book
+    {
+        public Book()
+        {
+            Reviews = new List<Review>();
+        }
+
+        public int Id  { get; set; }
+        public string Isbn { get; set; }
+        public string Title { get; set; }
+        public DateTime PublishedDate { get; set; }
+        public virtual ICollection<Review> Reviews { get; set; }
+    }
+}
