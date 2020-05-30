@@ -2,9 +2,11 @@ using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Threading.Tasks;
+using BookAPICore31.Services;
 using Microsoft.AspNetCore.Builder;
 using Microsoft.AspNetCore.Hosting;
 using Microsoft.AspNetCore.Http;
+using Microsoft.EntityFrameworkCore;
 using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.DependencyInjection;
 using Microsoft.Extensions.Hosting;
@@ -26,6 +28,7 @@ namespace BookAPICore31
             services.AddMvc();
 
             var connString = _Configuration.GetConnectionString("DefaultConnection");
+            services.AddDbContext<BookDbContext>(c => c.UseSqlServer(connString));
 
         }
 
