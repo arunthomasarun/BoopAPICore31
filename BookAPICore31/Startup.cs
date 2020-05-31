@@ -30,6 +30,8 @@ namespace BookAPICore31
             var connString = _Configuration.GetConnectionString("DefaultConnection");
             services.AddDbContext<BookDbContext>(c => c.UseSqlServer(connString));
 
+            services.AddScoped<ICountryRepository, CountryRepository>();
+
         }
 
         // This method gets called by the runtime. Use this method to configure the HTTP request pipeline.
@@ -44,10 +46,11 @@ namespace BookAPICore31
 
             app.UseEndpoints(endpoints =>
             {
-                endpoints.MapGet("/", async context =>
-                {
-                    await context.Response.WriteAsync("Hello World!");
-                });
+                endpoints.MapDefaultControllerRoute();
+                //endpoints.MapGet("/", async context =>
+                //{
+                //    await context.Response.WriteAsync("Hello World!");
+                //});
             });
         }
     }
