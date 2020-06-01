@@ -33,13 +33,59 @@ namespace BookAPICore31.Controllers
 
             var countriesDto = new List<CountryDTO>();
             foreach (var country in countries)
-            { 
+            {
                 countriesDto.Add(new CountryDTO()
                 {
                     Id = country.Id,
                     Name = country.Name
-                });                
+                });
             }
+
+            return Ok(countriesDto);
+        }
+
+
+        //api/countries/{countryId}
+        [HttpGet("{countryId}")]
+        [ProducesResponseType(StatusCodes.Status400BadRequest)]
+        [ProducesResponseType(StatusCodes.Status404NotFound)]
+        [ProducesResponseType(StatusCodes.Status200OK, Type = typeof(CountryDTO))]
+        public async Task<IActionResult> GetCountry(int countryId)
+        {
+            if (!await _countryRepository.CountryExists(countryId))
+                return StatusCode(StatusCodes.Status404NotFound);
+
+            var countries = await _countryRepository.GetCountry(countryId);
+            if (!ModelState.IsValid)
+                return BadRequest(ModelState);
+            
+            var countriesDto = new CountryDTO() {
+                Id = countries.Id,
+                Name = countries.Name
+            };
+            
+
+            return Ok(countriesDto);
+        }
+
+
+        //api/countries/Authors/{authorId}
+        [HttpGet("Authors/{authorId}")]
+        [ProducesResponseType(StatusCodes.Status400BadRequest)]
+        [ProducesResponseType(StatusCodes.Status404NotFound)]
+        [ProducesResponseType(StatusCodes.Status200OK, Type = typeof(CountryDTO))]
+        public async Task<IActionResult> GetCountryOfAnAuthor(int authorId)
+        {            
+
+            var countries = await _countryRepository.GetCountryOfAnAuthor(authorId);
+            if (!ModelState.IsValid)
+                return BadRequest(ModelState);
+
+            var countriesDto = new CountryDTO()
+            {
+                Id = countries.Id,
+                Name = countries.Name
+            };
 
             return Ok(countriesDto);
         }
